@@ -17,7 +17,6 @@ class PostsController extends Controller
 
     public function index(Request $request, PostFilter $filter)
     {
-        //Cache::flush();
         return view('pages.posts.all', [
             'posts' => $this->postRepo->getAll(
                 $filter->getPageNumber($request), $filter->getSortByKey($request)

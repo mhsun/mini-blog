@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserPostsController;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,6 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('admin')->name('admin.')->prefix('admin')->group(function () {
-        Route::resource('posts', UserPostsController::class);
+        Route::get('posts', AdminPostsController::class);
     });
 });

@@ -20,7 +20,7 @@
                         </p>
                     </div>
                     <div class="text-justify">
-                        {{ $post->description }}
+                        {{ showReadMore($post->description) }}
                     </div>
                     <hr>
                 @empty

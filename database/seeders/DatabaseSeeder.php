@@ -14,15 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory()->create([
+            'name'     => config('admin.name'),
+            'email'    => config('admin.email'),
+            'is_admin' => true
+        ]);
 
-        $user = \App\Models\User::factory()->create();
-
-        for ($i = 1; $i <= 100; $i++) {
-            Post::factory()->create([
-                'user_id'          => $user->id,
-                'publication_date' => now()->addDays($i)
-            ]);
-        }
+        Post::factory()->count(1000)->create([
+            'publication_date' => now()
+        ]);
     }
 }

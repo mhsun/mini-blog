@@ -25,7 +25,7 @@ class PostFactory extends Factory
         return [
             'title'            => $this->faker->sentence,
             'description'      => $this->faker->paragraph,
-            'publication_date' => now()->addDay()->toDateTimeString(),
+            'publication_date' => now(),
             'user_id'          => User::factory()->create()
         ];
     }

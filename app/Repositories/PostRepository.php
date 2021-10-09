@@ -87,7 +87,8 @@ class PostRepository implements PostContract
             function () use ($page, $sort) {
                 return Post::with('user:id,name')
                     ->orderBy('publication_date', $sort)
-                    ->simplePaginate(20, ['*'], 'page', $page);
+                    ->simplePaginate(20, ['*'], 'page', $page)
+                    ->appends(['sort' => $sort]);
             });
     }
 

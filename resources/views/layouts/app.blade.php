@@ -55,13 +55,19 @@
                             </li>
                         @endif
                     @else
-                        @if (request()->is('user/*'))
+                        @if (!request()->is('posts'))
                             <li class="nav-item">
                                 <a class="nav-link" href="/posts">Site</a>
                             </li>
                         @endif
 
-                        @if (request()->is('posts'))
+                        @if (request()->is('posts') && auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/posts">Panel</a>
+                            </li>
+                        @endif
+
+                        @if (request()->is('posts') && !auth()->user()->isAdmin())
                             <li class="nav-item">
                                 <a class="nav-link" href="/user/posts">My Posts</a>
                             </li>
