@@ -10,7 +10,10 @@ In addition, the admin can import posts from a different URL. For that, he needs
 #### setup composer
 After cloning the project, go to the project directory and open the terminal and hit
 
-``composer install``
+``composer install --no-dev``
+
+This command will install all the dependencies for the project skipping the dev dependencies. If you want to the dev
+dependencies to be installed ignore ``--no-dev`` and simply hit ``composer install``
 
 Then add a .env file in the root of the project directory and copy the .env.example contents or you may copy the .env.example file and paste in the root directory and rename it to .env
 
@@ -141,3 +144,13 @@ Before running the application you need to install the node modules in your proj
 You're ready to go. Serve the application and visit it at the url provided in the terminal.
 
 `php artisan serve`
+
+For better performance you can cache the route and config and dump the auto-loads by the following commands
+
+```
+php artisan config:cache
+php artisan route:cache
+php artisan optimize --force
+composer dumpautoload -o
+npm run production
+```
