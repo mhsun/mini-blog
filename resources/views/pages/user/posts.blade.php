@@ -8,6 +8,15 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-12">
+                @if (session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-10 col-lg-offset-2 col-md-11 col-md-offset-1">
                 @forelse($posts as $post)
                     <div class="post-preview">

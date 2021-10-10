@@ -39,6 +39,7 @@ class PostsControllerTest extends TestCase
 
         $this->get('/posts')
             ->assertOk()
+            ->assertViewIs('pages.posts.all')
             ->assertSee($randomPost->title);
     }
 
@@ -49,6 +50,7 @@ class PostsControllerTest extends TestCase
 
         $this->get('/posts')
             ->assertOk()
+            ->assertViewIs('pages.posts.all')
             ->assertSee($randomPost->user->name)
             ->assertSee($randomPost->user->publication_date);
     }
@@ -60,6 +62,7 @@ class PostsControllerTest extends TestCase
 
         $this->get("/posts/{$randomPost->id}")
             ->assertOk()
+            ->assertViewIs('pages.posts.single')
             ->assertSee($randomPost->user->name)
             ->assertSee($randomPost->user->publication_date);
     }

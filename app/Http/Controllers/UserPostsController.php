@@ -27,6 +27,8 @@ class UserPostsController extends Controller
 
         event(new PostCreated());
 
-        return Redirect::route('user.posts.index');
+        return Redirect::route('user.posts.index')->with([
+            'success' => 'Importing of posts has been started'
+        ]);
     }
 }

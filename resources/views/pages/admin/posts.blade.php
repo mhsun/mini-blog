@@ -2,6 +2,24 @@
 
 @section('content')
     <div class="container">
+        <div class="row mb-0 mt-2">
+            <div class="col-md-12">
+                <a href="{{ url('admin/posts/import') }}">
+                    <button class="btn btn-primary float-right">Import Post</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-12">
+                @if (session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-10 col-lg-offset-2 col-md-11 col-md-offset-1">
                 @forelse($posts as $post)

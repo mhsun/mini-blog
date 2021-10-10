@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminPostsController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\PostsImportController;
 use App\Http\Controllers\UserPostsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -19,5 +20,6 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('admin')->name('admin.')->prefix('admin')->group(function () {
         Route::get('posts', AdminPostsController::class);
+        Route::get('posts/import', PostsImportController::class);
     });
 });

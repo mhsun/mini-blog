@@ -39,12 +39,14 @@ class UserPostsControllerTest extends TestCase
         ];
 
         $this->get('/user/posts')
+            ->assertViewIs('pages.user.posts')
             ->assertDontSee($payload['title']);
 
         $this->post('/user/posts', $payload)
             ->assertRedirect('/user/posts');
 
         $this->get('/user/posts')
+            ->assertViewIs('pages.user.posts')
             ->assertSee($payload['title']);
     }
 
@@ -58,6 +60,7 @@ class UserPostsControllerTest extends TestCase
         ]);
 
         $this->get('/user/posts')
+            ->assertViewIs('pages.user.posts')
             ->assertSee($posts->random()->title);
     }
 }

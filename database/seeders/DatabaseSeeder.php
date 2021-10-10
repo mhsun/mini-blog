@@ -19,9 +19,5 @@ class DatabaseSeeder extends Seeder
             'email'    => config('admin.email'),
             'is_admin' => true
         ]);
-
-        Post::factory()->count(1000)->create([
-            'publication_date' => now()
-        ]);
     }
 }

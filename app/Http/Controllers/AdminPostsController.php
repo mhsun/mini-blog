@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contracts\PostContract;
 use App\Filters\PostFilter;
-use App\Models\Post;
 use Illuminate\Http\Request;
 
 class AdminPostsController extends Controller
