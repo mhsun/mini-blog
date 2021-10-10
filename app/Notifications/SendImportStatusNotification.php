@@ -53,6 +53,7 @@ class SendImportStatusNotification extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->subject("Data import update")
+            ->from(config('admin.email'))
             ->line($line)
             ->action('See Now', url('/admin/posts'));
     }

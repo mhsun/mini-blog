@@ -1,64 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Mini-Blog
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a mini-blog that shows the posts which are posted by the admin or any user that has an account. As a visitor one can see all the published posts. Anyone can sign up and make their own post. The posts can be only created but can not be updated or deleted.
 
-## About Laravel
+In addition, the admin can import posts from a different URL. For that, he needs to go with some procedures. The posts are being cached by the system for a certain period of time. After that, it will be cleared until the new cache is not stored. For caching **Redis** has been used which is a very popular in-memory database.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Project Setup
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### setup composer
+After cloning the project, go to the project directory and open the terminal and hit
 
-## Learning Laravel
+``composer install``
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Then add a .env file in the root of the project directory and copy the .env.example contents or you may copy the .env.example file and paste in the root directory and rename it to .env
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Next, you should fill up the **APP_KEY** in the .env file with a long random string, or you hit the command below
 
-## Laravel Sponsors
+``php artisan key:generate``
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### setup database
+You need to fill up the database credentials in the .env file. Create a database according to your connection. The following fields need to fill up in the .env file
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+```
+DB_CONNECTION=
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
+```
 
-## Contributing
+As we are using **Redis** we need to tell our system to use `redis` as our cache and queue driver. For that fill the following fields in your .env file
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+``CACHE_DRIVER=redis``
 
-## Code of Conduct
+``QUEUE_CONNECTION=redis``
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Optionally you can set your own prefix for caching. For that, you need to fill
 
-## Security Vulnerabilities
+``CACHE_PREFIX=``
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Next, we need to set up the Redis client credentials. We will be using the ``predis/predis`` package.
 
-## License
+```
+REDIS_CLIENT=predis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+```
+In order to import data from other sites/blogs, an `IMPORT_URL` key needs to be present in the .env file with a valid URL of the site from which the data is to be fetched.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+``IMPORT_URL=``
+
+Optionally if you want to get notified after data import fill up the following fields (for test purposes fill up those fields with mailtrap credential)
+
+```
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+NOTIFY_ADMIN=true # false for not sending notification
+```
+
+Next you need to set admin's info
+
+```
+ADMIN_NAME=
+ADMIN_EMAIL=
+```
+
+Now it's time for migrating. Hit the command below
+
+`php artisan migrate`
+
+An 'admin' is needed by default for the system. To generate an admin, simply hit the command below
+
+`` php artisan db:seed``
+
+You can combine the migrate and seed command in one by following
+
+``php artisan migrate --seed``
+
+A queue worker is needed to run the queue in the background. For that hit the following command
+
+`` php artisan queue:work ``
+
+#### Running the application
+Before running the application you need to install the node modules in your project. Hit the following commands to install them
+
+`npm install && npm run dev`
+
+You're ready to go. Serve the application and visit it at the url provided in the terminal.
+
+`php artisan serve`
