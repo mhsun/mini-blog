@@ -31,6 +31,8 @@ DB_USERNAME=
 DB_PASSWORD=
 ```
 
+#### Setup cache driver
+
 As we are using **Redis** we need to tell our system to use `redis` as our cache and queue driver. For that fill the following fields in your .env file
 
 ``CACHE_DRIVER=redis``
@@ -49,6 +51,8 @@ REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 ```
+
+#### Prerequisite setup to import post from other site/blog
 In order to import data from other sites/blogs, an `IMPORT_URL` key needs to be present in the .env file with a valid URL of the site from which the data is to be fetched.
 
 ``IMPORT_URL=``
@@ -75,6 +79,7 @@ ADMIN_NAME=
 ADMIN_EMAIL=
 ```
 
+#### Database migrations & queue worker
 Now it's time for migrating. Hit the command below
 
 `php artisan migrate`
@@ -90,6 +95,43 @@ You can combine the migrate and seed command in one by following
 A queue worker is needed to run the queue in the background. For that hit the following command
 
 `` php artisan queue:work ``
+
+#### Running the test cases
+
+Before running test cases you need to configure your IDE and set the interpreter to run phpunit. Additionaly you should
+have setup something like this in the phpunit.xml file.
+```
+<php>
+<server name="APP_ENV" value="testing"/>
+<server name="BCRYPT_ROUNDS" value="4"/>
+<server name="CACHE_DRIVER" value="array"/>
+<server name="DB_CONNECTION" value="sqlite"/>
+<server name="DB_DATABASE" value=":memory:"/>
+<server name="MAIL_MAILER" value="array"/>
+<server name="QUEUE_CONNECTION" value="sync"/>
+<server name="SESSION_DRIVER" value="array"/>
+<server name="TELESCOPE_ENABLED" value="false"/>
+</php>
+```
+
+If all goes well, you can run your test suite simply by hitting the command below
+
+`` php artisan test``
+
+#### Console command to import post from other site
+
+To import post from another blog you have two options. You can log in as an admin and click the 'Import Post' button in the top
+right corner of your panel. Then it will redirect you to your home page and the posts will be fetched in the background.
+
+Or you can simply hit the command below to import post
+
+`` php artisan import:posts``
+
+This command optionally takes two parameters. First one is the url from where data will be fetched. Secondly the user id, against whom
+the fetched post will be saved. Both are optional. If no url is provided, the url will be taken from
+the `IMPORT_URL` key in .env file. And in case the user id is not provided, the posts will be saved against the default admin.
+
+***N.B: This command is a helper command for site admin. User has nothing to do with it.***
 
 #### Running the application
 Before running the application you need to install the node modules in your project. Hit the following commands to install them
